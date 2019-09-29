@@ -107,6 +107,7 @@ func main() {
 
 	// 웹 서버 생성
 	r := gin.Default()
+	r.MaxMultipartMemory = 1
 	r.Use(static.Serve("/", static.LocalFile("./web", false)))
 
 	// 이미지 업로드
@@ -114,7 +115,6 @@ func main() {
 		file, _ := c.FormFile("imageFile")
 
 		uid := xid.New().String()
-		fmt.Println(uid)
 		filename := "./web/public/uploads/" + uid
 		c.SaveUploadedFile(file, filename)
 
