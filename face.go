@@ -106,6 +106,7 @@ func main() {
 	net.SetPreferableTarget(gocv.NetTargetType(gocv.NetTargetCPU))
 
 	// 웹 서버 생성
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.MaxMultipartMemory = 1
 	r.Use(static.Serve("/", static.LocalFile("./web", false)))
