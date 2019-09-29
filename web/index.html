@@ -1,0 +1,115 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="title" content="Go-OpenCV-Face-Blur : 박병일">
+    <meta name="description" content="Go & OpenCV & Caffe 를 활용한 얼굴인식 & 블러">
+    <meta name="keywords" content="Go, OpenCV, Caffe, Blur">
+    <meta name="author" content="박병일">
+    <meta name="og:title" property="og:title" content="Go-OpenCV-Face-Blur : 박병일">
+    <meta name="og:description" property="og:description" content="Go & OpenCV & Caffe 를 활용한 얼굴인식 & 블러">
+    <meta name="og:type" property="og:type" content="website">
+    <meta name="og:url" property="og:url" content="http://face.practical.kr">
+    <meta name="og:image" property="og:image" content="https://rtlink.s3.ap-northeast-2.amazonaws.com/faceblur.jpg">
+    <meta name="og:site_name" property="og:site_name" content="프랙티컬">
+
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/vue-image-upload-resize.js"></script>
+  </head>
+  <body>
+  <div id="app">
+
+    <section class="conA">
+      <div class="container">
+        <h1>Face Detection & Blur</h1>
+        <img :src="imageUrl">
+        <img :src="resultUrl">
+        <p>{{countMsg}}</p>
+        <image-uploader id="fileInput" :maxWidth="1024" :quality="0.8" :autoRotate="true" outputFormat="string" :preview="true" @input="openPhoto" style="display: none"></image-uploader>
+        <p></p>
+        <button type="button" onclick="document.getElementById('fileInput').click();">{{title}}</button>
+        <hr>
+      </div>
+    </section>
+
+    <section class="conB">
+      <div class="container">
+        <h1>Face Detecttion & Blur</h1>
+        <p>OpenCV 공부중에 주말 프로젝트로 만들어본 Go 언어 기반 얼굴인식 기능 및 블러 처리 프로그램입니다.</p>
+        <p>얼굴인식 - 이미 학습된 Caffe 기반의 딥러닝 얼굴인식 모델을 활용하여 인식하고 인식된 얼굴 부분을 블러 처리하여 웹요청에 응답합니다.</p>
+        <p>API 서버 - Go Gin 기반으로 웹 프론트에 용청에 응답을 처리 </p>
+        <p>프론트 - Vue.js & Axios 등으로 Go 서버에 이미지를 전송 하고 결과를 받아서 화면에 뿌려 줍니다.</p>
+      </div>
+      <div class="container">
+        <h1>Open Source</h1>
+        <p>이 프로젝트의 소스코드는 아래 링크를 참조 하세요.</p>
+        <p>
+          <a href="https://github.com/bipark/go-opencv-caffe-facedetect-blur" target="_blank">https://github.com/bipark/go-opencv-caffe-facedetect-blur</a>
+        </p>
+        <br/>
+        <p>만든사람 - 박병일</p>
+        <p><a href="https://www.facebook.com/rtlink.park" target="_blank">https://www.facebook.com/rtlink.park</a></p>
+        <p>이 소스는 MIT 라이센스로 자유롭게 활용할 수 있습니다</p>
+      </div>    
+    </section>
+
+  </div>
+
+  <script>
+	  new Vue({
+      el: '#app',
+
+      data: () => ({
+        title: "얼굴이 포함된 이미지 파일을 선택 하세요",
+        imageFile: null,
+        hasImage: false,
+	      imageUrl: "https://rtlink.s3.ap-northeast-2.amazonaws.com/lenna-bef.jpg",
+        resultUrl: "https://rtlink.s3.ap-northeast-2.amazonaws.com/lenna-res.jpg",
+        countMsg: ""
+      }),
+
+      methods: {
+	      dataToFile(dataurl, filename) {
+		      var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+			      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+		      while(n--){
+			      u8arr[n] = bstr.charCodeAt(n);
+		      }
+		      return new File([u8arr], filename, {type:mime});
+	      },
+
+        openPhoto(event) {
+	        this.imageFile = this.dataToFile(event);
+          let formData = new FormData();
+          formData.append('imageFile', this.imageFile);
+
+          const header = {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'multipart/form-data',
+            }
+          };
+          axios.post("/api/image/add", formData, header)
+            .then((res)=>{
+	            this.imageUrl = 'public/uploads/'+res.data.location;
+	            this.resultUrl = 'public/results/'+res.data.location+'.jpg';
+	            this.countMsg = res.data.fcount + ' 개의 얼굴을 찾았습니다. 맞나요?';
+            })
+        },
+
+      }
+
+    })
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148910161-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-148910161-1');
+   </script>
+
+  </body>
+</html>

@@ -1,0 +1,84 @@
+html {
+    touch-action: manipulation;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    background: #fff;
+}
+
+.conA{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.conA h1 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 30px;
+}
+
+.conA p {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.conA img {
+    margin: 5px;
+    padding: 2px;
+    max-width: 90%;
+    border: solid 1px gainsboro;
+}
+
+.conA button {
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    padding: 10px 20px;
+    border: solid 1px gray;
+    border-radius: 6px;
+    background-color: lightblue;
+    color: #fff;
+    font-size: 14px;
+}
+
+.conA hr {
+    width: 90%;
+}
+
+.conB{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.conB .container {
+    margin: 20px;
+    /* border: solid 1px gainsboro; */
+}
+
+.conB h1 {
+    text-align: center;
+}
+
+.conB p {
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 15px;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .conA h1 {
+        font-size: 50px;
+    }
+
+    .conA img {
+        max-width: 40%;
+    }
+}
