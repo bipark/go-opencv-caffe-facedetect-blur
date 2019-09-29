@@ -8,9 +8,11 @@ OpenCV 공부중에 주말 프로젝트로 만들어본 Go 언어 기반 얼굴�
 
 Go Gin 기반으로 웹 프론트에 용청에 응답을 처리 하고 프론트에서는 Vue.js & Axios 등으로 Go 서버에 이미지를 전송 하고 결과를 받아서 화면에 뿌려 줍니다.
 
-이 소스는 MIT 라이센스로 자유롭게 활용할 수 있습니다. 소스와 관련한 문의는 rtlink.park@gmail.com 으로 하시면 됩니다.
+이 소스는 MIT 라이센스로 자유롭게 활용할 수 있습니다.
 
-추가로 동영상에서 얼굴을 인식하고 블러 처리를 하는 작업을 하려고 합니다. 가능 할것 같네요.
+# 데모페이지
+아래 링크에서 실행 데모를 볼 수 있습니다.
+[http://face.practical.kr](http://face.practical.kr)
 
 # 의존성 
 * Go 언어 - [https://golang.org](https://golang.org/)
